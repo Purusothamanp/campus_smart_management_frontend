@@ -258,6 +258,7 @@ export const Auth = () => {
               >
                 <option value="STUDENT">Student</option>
                 <option value="FACULTY">Faculty Member</option>
+                <option value="ADMIN">System Administrator (Admin)</option>
               </select>
             </div>
 
@@ -338,7 +339,9 @@ export const Auth = () => {
               {loading ? 'Submitting Registration...' : 'Create Account'}
             </button>
             <p style={{ fontSize: '0.74rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: 12 }}>
-              * New accounts require Administrator approval before signing in.
+              {registerData.role === 'ADMIN'
+                ? '✓ Admin accounts are approved immediately upon creation.'
+                : '* Student and Faculty accounts can be approved in the Admin Console.'}
             </p>
           </form>
         )}
