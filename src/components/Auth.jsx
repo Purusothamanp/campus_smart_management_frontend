@@ -5,12 +5,12 @@ import {
   Building2, 
   LogIn, 
   UserPlus, 
-  User, 
   CheckCircle2, 
-  AlertCircle, 
-  Sparkles, 
-  Shield, 
-  GraduationCap 
+  AlertCircle,
+  Lock,
+  User as UserIcon,
+  Mail,
+  Briefcase
 } from 'lucide-react';
 
 export const Auth = () => {
@@ -31,11 +31,6 @@ export const Auth = () => {
     role: 'STUDENT',
   });
 
-  const handleQuickFill = (u, p) => {
-    setLoginData({ username: u, password: p });
-    setError('');
-  };
-
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -50,7 +45,7 @@ export const Auth = () => {
         setError(res.message || 'Login failed');
       }
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'Authentication failed. Please check your credentials.');
     } finally {
       setLoading(false);
     }
@@ -65,13 +60,14 @@ export const Auth = () => {
     try {
       const res = await authAPI.register(registerData);
       if (res.success) {
-        setSuccessMsg(res.message || 'Registration submitted! Please wait for Admin approval.');
+        setSuccessMsg(res.message || 'Registration submitted! Please wait for Administrator approval.');
         setIsRegister(false);
+        setLoginData({ username: registerData.username, password: '' });
       } else {
         setError(res.message || 'Registration failed');
       }
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'Registration failed. Please verify the information entered.');
     } finally {
       setLoading(false);
     }
@@ -88,89 +84,36 @@ export const Auth = () => {
     }}>
       <div className="glass-panel" style={{
         width: '100%',
-        maxWidth: 460,
+        maxWidth: 440,
         padding: '36px 32px',
-        position: 'relative',
-        overflow: 'hidden',
+        borderRadius: 'var(--radius-lg)',
+        boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.08), 0 0 1px 1px rgba(0, 0, 0, 0.04)',
         background: '#ffffff',
         border: '1px solid #e2e8f0',
-        borderRadius: 'var(--radius-xl)',
-        boxShadow: '0 20px 40px -10px rgba(15, 23, 42, 0.1), 0 0 0 1px rgba(226, 232, 240, 0.6)'
       }}>
-        {/* Top Radiant Accent Line */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 4,
-          background: 'linear-gradient(90deg, #4f46e5, #7c3aed, #0284c7, #059669)',
-        }} />
-
-        {/* Logo and Brand Title */}
-        <div style={{ textAlign: 'center', marginBottom: 26 }}>
+        {/* Branding Header */}
+        <div style={{ textAlign: 'center', marginBottom: 28 }}>
           <div style={{
-            width: 54,
-            height: 54,
+            width: 56,
+            height: 56,
             borderRadius: 16,
             background: 'linear-gradient(135deg, #4f46e5 0%, #6366f1 50%, #0284c7 100%)',
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
             boxShadow: '0 6px 20px rgba(79, 70, 229, 0.35)',
-            marginBottom: 12,
+            marginBottom: 14,
             border: '1px solid rgba(255, 255, 255, 0.4)'
           }}>
             <Building2 size={28} color="#ffffff" />
           </div>
-          <h2 style={{ fontSize: '1.6rem', marginBottom: 4, letterSpacing: '-0.03em', color: '#0f172a' }}>
-            Smart Resource Management
+          <h2 style={{ fontSize: '1.6rem', marginBottom: 6, letterSpacing: '-0.03em', color: '#0f172a' }}>
+            Campus Resource Portal
           </h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.86rem' }}>
-            CSRM Centralized Operations Portal
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem' }}>
+            CSRM Centralized Resource Management System
           </p>
         </div>
-
-        {/* Quick Demo Login Pill Bar */}
-        {!isRegister && (
-          <div style={{
-            background: '#f8fafc',
-            borderRadius: 'var(--radius-md)',
-            padding: '12px 14px',
-            marginBottom: 22,
-            border: '1px solid #e2e8f0',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8, fontSize: '0.74rem', color: 'var(--text-secondary)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              <Sparkles size={13} color="#d97706" /> Fast Evaluation Logins:
-            </div>
-            <div style={{ display: 'flex', gap: 8 }}>
-              <button
-                type="button"
-                className="btn btn-secondary btn-sm"
-                style={{ flex: 1, fontSize: '0.78rem', padding: '6px 4px', borderRadius: 9999, background: '#ffffff' }}
-                onClick={() => handleQuickFill('admin', 'admin123')}
-              >
-                <Shield size={12} color="#7c3aed" /> Admin
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary btn-sm"
-                style={{ flex: 1, fontSize: '0.78rem', padding: '6px 4px', borderRadius: 9999, background: '#ffffff' }}
-                onClick={() => handleQuickFill('faculty', 'faculty123456')}
-              >
-                <GraduationCap size={12} color="#0284c7" /> Faculty
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary btn-sm"
-                style={{ flex: 1, fontSize: '0.78rem', padding: '6px 4px', borderRadius: 9999, background: '#ffffff' }}
-                onClick={() => handleQuickFill('student', 'password123456')}
-              >
-                <User size={12} color="#059669" /> Student
-              </button>
-            </div>
-          </div>
-        )}
 
         {/* Tab Toggle Pill Switcher */}
         <div style={{
@@ -178,14 +121,14 @@ export const Auth = () => {
           background: '#f1f5f9',
           borderRadius: 9999,
           padding: 3,
-          marginBottom: 22,
+          marginBottom: 24,
           border: '1px solid #e2e8f0',
         }}>
           <button
             type="button"
             style={{
               flex: 1,
-              padding: '8px',
+              padding: '9px',
               border: 'none',
               borderRadius: 9999,
               background: !isRegister ? 'var(--grad-primary)' : 'transparent',
@@ -196,7 +139,7 @@ export const Auth = () => {
               transition: 'all 0.2s',
               boxShadow: !isRegister ? '0 2px 8px rgba(79, 70, 229, 0.3)' : 'none'
             }}
-            onClick={() => { setIsRegister(false); setError(''); }}
+            onClick={() => { setIsRegister(false); setError(''); setSuccessMsg(''); }}
           >
             Sign In
           </button>
@@ -204,7 +147,7 @@ export const Auth = () => {
             type="button"
             style={{
               flex: 1,
-              padding: '8px',
+              padding: '9px',
               border: 'none',
               borderRadius: 9999,
               background: isRegister ? 'var(--grad-primary)' : 'transparent',
@@ -215,25 +158,25 @@ export const Auth = () => {
               transition: 'all 0.2s',
               boxShadow: isRegister ? '0 2px 8px rgba(79, 70, 229, 0.3)' : 'none'
             }}
-            onClick={() => { setIsRegister(true); setError(''); }}
+            onClick={() => { setIsRegister(true); setError(''); setSuccessMsg(''); }}
           >
-            Register
+            Create Account
           </button>
         </div>
 
         {/* Feedback Messages */}
         {error && (
           <div style={{
-            padding: '10px 14px',
+            padding: '11px 14px',
             borderRadius: 'var(--radius-sm)',
             background: '#ffe4e6',
             border: '1px solid #fecdd3',
             color: '#be123c',
-            fontSize: '0.82rem',
+            fontSize: '0.84rem',
             display: 'flex',
             alignItems: 'center',
             gap: 10,
-            marginBottom: 18,
+            marginBottom: 20,
           }}>
             <AlertCircle size={16} style={{ flexShrink: 0 }} />
             <span>{error}</span>
@@ -242,16 +185,16 @@ export const Auth = () => {
 
         {successMsg && (
           <div style={{
-            padding: '10px 14px',
+            padding: '11px 14px',
             borderRadius: 'var(--radius-sm)',
             background: '#d1fae5',
             border: '1px solid #a7f3d0',
             color: '#065f46',
-            fontSize: '0.82rem',
+            fontSize: '0.84rem',
             display: 'flex',
             alignItems: 'center',
             gap: 10,
-            marginBottom: 18,
+            marginBottom: 20,
           }}>
             <CheckCircle2 size={16} style={{ flexShrink: 0 }} />
             <span>{successMsg}</span>
@@ -261,27 +204,33 @@ export const Auth = () => {
         {/* Login Form */}
         {!isRegister ? (
           <form onSubmit={handleLoginSubmit}>
-            <div className="form-group">
-              <label className="form-label">Username</label>
+            <div className="form-group" style={{ marginBottom: 16 }}>
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <UserIcon size={14} color="#64748b" /> Username
+              </label>
               <input
                 type="text"
                 required
                 className="form-input"
-                placeholder="Enter username"
+                placeholder="Enter your username"
                 value={loginData.username}
                 onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
+                autoComplete="username"
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Password</label>
+            <div className="form-group" style={{ marginBottom: 20 }}>
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Lock size={14} color="#64748b" /> Password
+              </label>
               <input
                 type="password"
                 required
                 className="form-input"
-                placeholder="Enter password"
+                placeholder="Enter your password"
                 value={loginData.password}
                 onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                autoComplete="current-password"
               />
             </div>
 
@@ -289,7 +238,7 @@ export const Auth = () => {
               type="submit"
               disabled={loading}
               className="btn btn-primary"
-              style={{ width: '100%', marginTop: 10, padding: '11px', borderRadius: 'var(--radius-sm)' }}
+              style={{ width: '100%', padding: '12px', borderRadius: 'var(--radius-sm)', fontSize: '0.92rem' }}
             >
               <LogIn size={17} />
               {loading ? 'Authenticating...' : 'Sign In to Portal'}
@@ -298,8 +247,10 @@ export const Auth = () => {
         ) : (
           /* Registration Form */
           <form onSubmit={handleRegisterSubmit}>
-            <div className="form-group">
-              <label className="form-label">Select Account Role</label>
+            <div className="form-group" style={{ marginBottom: 14 }}>
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Briefcase size={14} color="#64748b" /> Account Role
+              </label>
               <select
                 className="form-select"
                 value={registerData.role}
@@ -310,20 +261,24 @@ export const Auth = () => {
               </select>
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Full Name</label>
+            <div className="form-group" style={{ marginBottom: 14 }}>
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <UserIcon size={14} color="#64748b" /> Full Name
+              </label>
               <input
                 type="text"
                 required
                 className="form-input"
-                placeholder="e.g. John Doe"
+                placeholder="e.g. Purusothaman P"
                 value={registerData.fullName}
                 onChange={(e) => setRegisterData({ ...registerData, fullName: e.target.value })}
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Email Address</label>
+            <div className="form-group" style={{ marginBottom: 14 }}>
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Mail size={14} color="#64748b" /> Email Address
+              </label>
               <input
                 type="email"
                 required
@@ -334,7 +289,7 @@ export const Auth = () => {
               />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
               <div className="form-group">
                 <label className="form-label">Username</label>
                 <input
@@ -344,6 +299,7 @@ export const Auth = () => {
                   placeholder="Username"
                   value={registerData.username}
                   onChange={(e) => setRegisterData({ ...registerData, username: e.target.value })}
+                  autoComplete="username"
                 />
               </div>
 
@@ -356,11 +312,12 @@ export const Auth = () => {
                   placeholder="Password"
                   value={registerData.password}
                   onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
+                  autoComplete="new-password"
                 />
               </div>
             </div>
 
-            <div className="form-group">
+            <div className="form-group" style={{ marginBottom: 18 }}>
               <label className="form-label">Department</label>
               <input
                 type="text"
@@ -375,13 +332,13 @@ export const Auth = () => {
               type="submit"
               disabled={loading}
               className="btn btn-primary"
-              style={{ width: '100%', marginTop: 10, padding: '11px', borderRadius: 'var(--radius-sm)' }}
+              style={{ width: '100%', padding: '12px', borderRadius: 'var(--radius-sm)', fontSize: '0.92rem' }}
             >
               <UserPlus size={17} />
-              {loading ? 'Submitting Registration...' : 'Register Account'}
+              {loading ? 'Submitting Registration...' : 'Create Account'}
             </button>
-            <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: 10 }}>
-              * New accounts require Administrator approval before logging in.
+            <p style={{ fontSize: '0.74rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: 12 }}>
+              * New accounts require Administrator approval before signing in.
             </p>
           </form>
         )}
