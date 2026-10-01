@@ -58,12 +58,19 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
       position: 'sticky',
       top: 0,
       zIndex: 100,
-      background: 'rgba(255, 255, 255, 0.88)',
-      backdropFilter: 'blur(20px)',
-      WebkitBackdropFilter: 'blur(20px)',
-      borderBottom: '1px solid var(--border-subtle)',
+      background: 'rgba(255, 255, 255, 0.86)',
+      backdropFilter: 'blur(24px) saturate(190%)',
+      WebkitBackdropFilter: 'blur(24px) saturate(190%)',
+      borderBottom: '1px solid rgba(226, 232, 240, 0.85)',
+      boxShadow: '0 4px 20px -2px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 1)',
       boxSizing: 'border-box'
     }}>
+      {/* Dynamic Iridescent Top Stripe */}
+      <div style={{
+        height: 2.5,
+        width: '100%',
+        background: 'linear-gradient(90deg, #4f46e5 0%, #06b6d4 35%, #8b5cf6 70%, #ec4899 100%)',
+      }} />
       <div style={{
         maxWidth: 1260,
         margin: '0 auto',

@@ -238,27 +238,38 @@ export const UserDashboard = ({ activeTab, setActiveTab }) => {
     <div style={{ maxWidth: 1260, width: '100%', margin: '0 auto', padding: '22px 18px', boxSizing: 'border-box' }}>
       {/* Welcome Hero Banner */}
       <div className="glass-panel" style={{
-        padding: '24px 28px',
+        padding: '28px 32px',
         marginBottom: 24,
-        background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-        border: '1px solid #e2e8f0',
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 245, 255, 0.9) 50%, rgba(245, 243, 255, 0.9) 100%)',
+        border: '1px solid rgba(255, 255, 255, 0.95)',
+        boxShadow: 'var(--shadow-card)',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         flexWrap: 'wrap',
-        gap: 16,
+        gap: 18,
         position: 'relative',
         overflow: 'hidden'
       }}>
-        {/* Subtle decorative glow circle */}
+        {/* Iridescent Accent Bar */}
         <div style={{
           position: 'absolute',
-          top: -40,
-          right: -40,
-          width: 140,
-          height: 140,
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 3,
+          background: 'var(--grad-primary)',
+        }} />
+
+        {/* Ambient Aurora Glow */}
+        <div style={{
+          position: 'absolute',
+          top: -30,
+          right: -30,
+          width: 180,
+          height: 180,
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(79, 70, 229, 0.1) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(99, 102, 241, 0.16) 0%, transparent 70%)',
           pointerEvents: 'none'
         }} />
 

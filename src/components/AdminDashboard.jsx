@@ -242,42 +242,50 @@ export const AdminDashboard = ({ activeTab, setActiveTab }) => {
         gap: 14,
         marginBottom: 24,
       }}>
-        <div className="glass-panel stat-card" style={{ borderLeft: '4px solid #4f46e5' }}>
-          <div className="stat-icon" style={{ background: 'rgba(79, 70, 229, 0.1)', color: '#4f46e5' }}>
+        <div className="glass-panel stat-card" style={{ borderLeft: '3.5px solid #4f46e5' }}>
+          <div className="stat-icon" style={{ background: 'rgba(79, 70, 229, 0.1)', color: '#4f46e5', boxShadow: '0 4px 12px rgba(79, 70, 229, 0.15)' }}>
             <Layers size={22} />
           </div>
           <div>
-            <div className="stat-value">{analytics?.totalResources || resources.length}</div>
+            <div className="stat-value" style={{ background: 'linear-gradient(135deg, #1e1b4b 0%, #4338ca 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              {analytics?.totalResources || resources.length}
+            </div>
             <div className="stat-label">Total Resources</div>
           </div>
         </div>
 
-        <div className="glass-panel stat-card" style={{ borderLeft: '4px solid #059669' }}>
-          <div className="stat-icon" style={{ background: 'rgba(5, 150, 105, 0.1)', color: '#059669' }}>
+        <div className="glass-panel stat-card" style={{ borderLeft: '3.5px solid #10b981' }}>
+          <div className="stat-icon" style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#059669', boxShadow: '0 4px 12px rgba(16, 185, 129, 0.15)' }}>
             <Calendar size={22} />
           </div>
           <div>
-            <div className="stat-value">{analytics?.activeBookings || 0}</div>
+            <div className="stat-value" style={{ background: 'linear-gradient(135deg, #064e3b 0%, #059669 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              {analytics?.activeBookings || 0}
+            </div>
             <div className="stat-label">Active Bookings</div>
           </div>
         </div>
 
-        <div className="glass-panel stat-card" style={{ borderLeft: '4px solid #d97706' }}>
-          <div className="stat-icon" style={{ background: 'rgba(217, 119, 6, 0.1)', color: '#d97706' }}>
+        <div className="glass-panel stat-card" style={{ borderLeft: '3.5px solid #f59e0b' }}>
+          <div className="stat-icon" style={{ background: 'rgba(245, 158, 11, 0.12)', color: '#d97706', boxShadow: '0 4px 12px rgba(245, 158, 11, 0.15)' }}>
             <AlertCircle size={22} />
           </div>
           <div>
-            <div className="stat-value">{pendingUsers.length}</div>
+            <div className="stat-value" style={{ background: 'linear-gradient(135deg, #78350f 0%, #d97706 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              {pendingUsers.length}
+            </div>
             <div className="stat-label">Pending Approvals</div>
           </div>
         </div>
 
-        <div className="glass-panel stat-card" style={{ borderLeft: '4px solid #0284c7' }}>
-          <div className="stat-icon" style={{ background: 'rgba(2, 132, 199, 0.1)', color: '#0284c7' }}>
+        <div className="glass-panel stat-card" style={{ borderLeft: '3.5px solid #06b6d4' }}>
+          <div className="stat-icon" style={{ background: 'rgba(6, 182, 212, 0.12)', color: '#0284c7', boxShadow: '0 4px 12px rgba(6, 182, 212, 0.15)' }}>
             <Users size={22} />
           </div>
           <div>
-            <div className="stat-value">{users.length}</div>
+            <div className="stat-value" style={{ background: 'linear-gradient(135deg, #083344 0%, #0284c7 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              {users.length}
+            </div>
             <div className="stat-label">Registered Accounts</div>
           </div>
         </div>
