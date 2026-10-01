@@ -1,12 +1,10 @@
-# Stage 1: Build the frontend
-FROM node:20-alpine AS build
+FROM node:20-alpine
+
 WORKDIR /app
 
-# Install dependencies
 COPY package*.json ./
-RUN npm ci || npm install
+RUN npm install
 
-# Copy source and build
 COPY . .
 
 ARG VITE_API_URL
@@ -14,12 +12,7 @@ ENV VITE_API_URL=$VITE_API_URL
 
 RUN npm run build
 
-# Stage 2: Serve with Nginx
-FROM nginx:alpine
-RUN rm -rf /etc/nginx/conf.d/* /etc/nginx/templates /docker-entrypoint.d/20-envsubst-on-templates.sh
-COPY --from=build /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
+ENV PORT=80
 EXPOSE 80
 
-CMD ["sh", "-c", "sed -i \"s/listen 80;/listen ${PORT:-80};/g\" /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "npx serve -s dist -l tcp://0.0.0.0:${PORT:-80}"]
