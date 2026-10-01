@@ -16,6 +16,7 @@ RUN npm run build
 
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
+RUN rm -rf /etc/nginx/conf.d/* /etc/nginx/templates /docker-entrypoint.d/20-envsubst-on-templates.sh
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
