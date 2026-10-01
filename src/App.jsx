@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import { Navbar } from './components/Navbar';
+import { AppLayout } from './components/AppLayout';
 import { Auth } from './components/Auth';
 import { AdminDashboard } from './components/AdminDashboard';
 import { UserDashboard } from './components/UserDashboard';
@@ -18,6 +18,7 @@ const MainApp = () => {
         justifyContent: 'center',
         flexDirection: 'column',
         gap: 16,
+        background: 'var(--bg-main)',
       }}>
         <div style={{
           width: 48,
@@ -27,8 +28,8 @@ const MainApp = () => {
           borderTopColor: '#6366f1',
           animation: 'spin 0.8s linear infinite',
         }} />
-        <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-          Loading CSRM System...
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 600 }}>
+          Loading CSRM Enterprise System...
         </p>
         <style>{`
           @keyframes spin {
@@ -43,35 +44,24 @@ const MainApp = () => {
     return <Auth />;
   }
 
+  const currentTab = user.role === 'ADMIN' 
+    ? (activeTab === 'catalog' ? 'overview' : activeTab) 
+    : (activeTab === 'overview' ? 'catalog' : activeTab);
+
   return (
-    <div style={{ minHeight: '100vh', width: '100%', maxWidth: '100vw', overflowX: 'hidden', display: 'flex', flexDirection: 'column' }}>
-      <Navbar
-        activeTab={user.role === 'ADMIN' ? (activeTab === 'catalog' ? 'overview' : activeTab) : (activeTab === 'overview' ? 'catalog' : activeTab)}
-        setActiveTab={setActiveTab}
-      />
-      <main style={{ flex: 1 }}>
-        {user.role === 'ADMIN' ? (
-          <AdminDashboard
-            activeTab={activeTab === 'catalog' ? 'overview' : activeTab}
-            setActiveTab={setActiveTab}
-          />
-        ) : (
-          <UserDashboard
-            activeTab={activeTab === 'overview' ? 'catalog' : activeTab}
-            setActiveTab={setActiveTab}
-          />
-        )}
-      </main>
-      <footer style={{
-        borderTop: '1px solid var(--border-color)',
-        padding: '20px 24px',
-        textAlign: 'center',
-        color: 'var(--text-dim)',
-        fontSize: '0.8rem',
-      }}>
-        Campus Smart Resource Management System (CSRM) • Fullstack Assessment 01
-      </footer>
-    </div>
+    <AppLayout activeTab={currentTab} setActiveTab={setActiveTab}>
+      {user.role === 'ADMIN' ? (
+        <AdminDashboard
+          activeTab={currentTab}
+          setActiveTab={setActiveTab}
+        />
+      ) : (
+        <UserDashboard
+          activeTab={currentTab}
+          setActiveTab={setActiveTab}
+        />
+      )}
+    </AppLayout>
   );
 };
 

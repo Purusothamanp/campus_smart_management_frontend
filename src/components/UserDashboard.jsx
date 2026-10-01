@@ -236,11 +236,13 @@ export const UserDashboard = ({ activeTab, setActiveTab }) => {
 
   return (
     <div style={{ maxWidth: 1260, width: '100%', margin: '0 auto', padding: '22px 18px', boxSizing: 'border-box' }}>
-      {/* Welcome Hero Banner */}
+      {/* Role-Specific Executive Hero Banner */}
       <div className="glass-panel" style={{
-        padding: '28px 32px',
+        padding: '26px 30px',
         marginBottom: 24,
-        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 245, 255, 0.9) 50%, rgba(245, 243, 255, 0.9) 100%)',
+        background: user?.role === 'FACULTY' 
+          ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(240, 253, 244, 0.9) 50%, rgba(236, 253, 245, 0.95) 100%)'
+          : 'linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(240, 249, 255, 0.9) 50%, rgba(238, 242, 255, 0.95) 100%)',
         border: '1px solid rgba(255, 255, 255, 0.95)',
         boxShadow: 'var(--shadow-card)',
         display: 'flex',
@@ -251,56 +253,83 @@ export const UserDashboard = ({ activeTab, setActiveTab }) => {
         position: 'relative',
         overflow: 'hidden'
       }}>
-        {/* Iridescent Accent Bar */}
+        {/* Dynamic Accent Top Stripe */}
         <div style={{
           position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
-          height: 3,
-          background: 'var(--grad-primary)',
-        }} />
-
-        {/* Ambient Aurora Glow */}
-        <div style={{
-          position: 'absolute',
-          top: -30,
-          right: -30,
-          width: 180,
-          height: 180,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(99, 102, 241, 0.16) 0%, transparent 70%)',
-          pointerEvents: 'none'
+          height: 3.5,
+          background: user?.role === 'FACULTY' 
+            ? 'linear-gradient(90deg, #10b981 0%, #059669 50%, #06b6d4 100%)'
+            : 'linear-gradient(90deg, #0284c7 0%, #6366f1 50%, #8b5cf6 100%)',
         }} />
 
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-            <span className="badge badge-primary">{user?.role} PORTAL</span>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Campus Operations</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+            <span style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 5,
+              padding: '4px 10px',
+              borderRadius: 9999,
+              background: user?.role === 'FACULTY' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(2, 132, 199, 0.15)',
+              border: `1px solid ${user?.role === 'FACULTY' ? 'rgba(16, 185, 129, 0.3)' : 'rgba(2, 132, 199, 0.3)'}`,
+              color: user?.role === 'FACULTY' ? '#047857' : '#0284c7',
+              fontSize: '0.74rem',
+              fontWeight: 800,
+              letterSpacing: '0.04em',
+            }}>
+              {user?.role === 'FACULTY' ? <BookOpen size={14} /> : <Sparkles size={14} />}
+              {user?.role === 'FACULTY' ? 'FACULTY ACADEMIC CONSOLE' : 'STUDENT RESOURCE & STUDY HUB'}
+            </span>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+              Department of {user?.department || 'Information Technology'}
+            </span>
           </div>
-          <h1 style={{ fontSize: '1.75rem', marginBottom: 6, letterSpacing: '-0.03em' }}>
+
+          <h1 style={{ fontSize: '1.75rem', marginBottom: 6, letterSpacing: '-0.025em', color: '#0f172a' }}>
             Welcome back, {user?.fullName}!
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', maxWidth: 640 }}>
+
+          <p style={{ color: '#475569', fontSize: '0.9rem', maxWidth: 660, margin: 0, lineHeight: 1.5 }}>
             {user?.role === 'FACULTY'
-              ? 'Reserve smart lecture halls, specialized laboratories, and audio-visual equipment for your sessions.'
-              : 'Reserve digital lockers, research lab setups, and collaborative equipment with real-time conflict verification.'}
+              ? 'Book high-capacity smart lecture halls, advanced research laboratories, and audio-visual instructional equipment with instant faculty priority clearance.'
+              : 'Secure digital lockers, IoT/robotics development bays, and VR testing hardware with automated conflict verification.'}
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: 10 }}>
-          <button
-            className={`btn ${activeTab === 'catalog' ? 'btn-primary' : 'btn-secondary'}`}
-            onClick={() => setActiveTab('catalog')}
-          >
-            <Layers size={16} /> Browse Catalog
-          </button>
-          <button
-            className={`btn ${activeTab === 'my-bookings' ? 'btn-primary' : 'btn-secondary'}`}
-            onClick={() => setActiveTab('my-bookings')}
-          >
-            <Calendar size={16} /> My Reservations ({myBookings.filter(b => b.status === 'CONFIRMED').length})
-          </button>
+        {/* Quick Role Stats Pill */}
+        <div style={{ display: 'flex', gap: 12 }}>
+          <div style={{
+            background: '#ffffff',
+            borderRadius: 14,
+            padding: '12px 18px',
+            border: '1px solid #e2e8f0',
+            boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)',
+            textAlign: 'center',
+            minWidth: 100,
+          }}>
+            <div style={{ fontSize: '1.4rem', fontWeight: 800, color: user?.role === 'FACULTY' ? '#059669' : '#0284c7' }}>
+              {resources.filter(r => r.availability).length}
+            </div>
+            <div style={{ fontSize: '0.74rem', color: '#64748b', fontWeight: 600 }}>Available Facilities</div>
+          </div>
+
+          <div style={{
+            background: '#ffffff',
+            borderRadius: 14,
+            padding: '12px 18px',
+            border: '1px solid #e2e8f0',
+            boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)',
+            textAlign: 'center',
+            minWidth: 100,
+          }}>
+            <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#4f46e5' }}>
+              {myBookings.filter(b => b.status === 'CONFIRMED').length}
+            </div>
+            <div style={{ fontSize: '0.74rem', color: '#64748b', fontWeight: 600 }}>Active Passes</div>
+          </div>
         </div>
       </div>
 
